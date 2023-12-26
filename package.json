@@ -1,0 +1,28 @@
+{
+  "name": "adventoftypescript2023",
+  "version": "1.0.0",
+  "description": "Advent of TypeScript 2023 Solutions",
+  "scripts": {
+    "test": "tsc --noEmit ./**/test.ts"
+  },
+  "engines": {
+    "node": "20.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BlueRexPY/AdventOfTypeScript2023.git"
+  },
+  "keywords": [
+    "Advent"
+  ],
+  "author": "RuslanRystsov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BlueRexPY/AdventOfTypeScript2023/issues"
+  },
+  "homepage": "https://github.com/BlueRexPY/AdventOfTypeScript2023#readme",
+  "devDependencies": {
+    "type-testing": "^0.2.0",
+    "typescript": "^5.3.3"
+  }
+}
