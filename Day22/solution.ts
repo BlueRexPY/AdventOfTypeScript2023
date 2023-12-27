@@ -22,47 +22,17 @@ type BoardLineType = BoardLineElementType[]; // [ [], [], []]
 type BoardType = BoardLineType[]; //[ [ [] ] ]
 type ValidationAccumulatorType = Record<number, true>;
 
-type ReindeerMap = {
-  "💨": 0;
-  "💃": 1;
-  "🦌": 2;
-  "🌟": 3;
-  "☄️": 4;
-  "❤️": 5;
-  "🌩️": 6;
-  "⚡": 7;
-  "🔴": 8;
-};
-
 type Validated9 = {
-  0: true;
-  1: true;
-  2: true;
-  3: true;
-  4: true;
-  5: true;
-  6: true;
-  7: true;
-  8: true;
+  "💨": true;
+  "💃": true;
+  "🦌": true;
+  "🌟": true;
+  "☄️": true;
+  "❤️": true;
+  "🌩️": true;
+  "⚡": true;
+  "🔴": true;
 };
-
-type DivideBy3 = {
-  0: 0;
-  1: 0;
-  2: 0;
-  3: 1;
-  4: 1;
-  5: 1;
-  6: 2;
-  7: 2;
-  8: 2;
-};
-
-type FlatLine<Line extends BoardLineType> = [
-  ...Line[0],
-  ...Line[1],
-  ...Line[2]
-];
 
 type ValidateHorizontalLine<
   Board extends BoardLineType,
@@ -92,7 +62,11 @@ type ValidateVerticalLinesAndFlat<
   infer Current extends BoardLineType,
   ...infer Rest extends BoardType
 ]
-  ? FlatLine<Current> extends infer FlatedLine extends BoardLineElementType
+  ? [
+      ...Current[0],
+      ...Current[1],
+      ...Current[2]
+    ] extends infer FlatedLine extends BoardLineElementType
     ? ValidateLine<FlatedLine> extends true
       ? ValidateVerticalLinesAndFlat<Rest, [...Accumulator, FlatedLine]>
       : []
@@ -106,7 +80,7 @@ type ValidateLine<
   infer Current extends Reindeer,
   ...infer Rest extends BoardLineElementType
 ]
-  ? ValidateLine<Rest, Accumulator & { [Key in ReindeerMap[Current]]: true }>
+  ? ValidateLine<Rest, Accumulator & { [Key in Current]: true }>
   : Accumulator extends Validated9
   ? true
   : false;
