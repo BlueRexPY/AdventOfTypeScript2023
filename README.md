@@ -45,3 +45,5 @@
 [Day 20](./Day20/solution.ts)
 
 [Day 21](./Day21/solution.ts)
+
+[Day 22](./Day22/solution.ts)
