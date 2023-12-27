@@ -1,4 +1,5 @@
 import { Equal, Expect } from "type-testing";
+import { Validate } from "./solution";
 
 type test_sudoku_1_actual = Validate<
   [

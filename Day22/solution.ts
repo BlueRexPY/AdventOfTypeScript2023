@@ -64,14 +64,39 @@ type FlatLine<Line extends BoardLineType> = [
   ...Line[2]
 ];
 
-type FlatBoard<
+type ValidateHorizontalLine<
+  Board extends BoardLineType,
+  Index extends number = 0,
+  Accumulator extends BoardLineElementType = []
+> = Accumulator["length"] extends 9
+  ? ValidateLine<Accumulator>
+  : ValidateHorizontalLine<
+      Board,
+      Index,
+      [...Accumulator, Board[Accumulator["length"]][Index]]
+    >;
+
+type ValidateHorizontalLines<
+  Board extends BoardLineType,
+  Accumulator extends number[] = []
+> = Accumulator["length"] extends 9
+  ? true
+  : ValidateHorizontalLine<Board, Accumulator["length"]> extends true
+  ? ValidateHorizontalLines<Board, [...Accumulator, 0]>
+  : false;
+
+type ValidateVerticalLinesAndFlat<
   Board extends BoardType,
   Accumulator extends BoardLineType = []
 > = Board extends [
   infer Current extends BoardLineType,
   ...infer Rest extends BoardType
 ]
-  ? FlatBoard<Rest, [...Accumulator, FlatLine<Current>]>
+  ? FlatLine<Current> extends infer FlatedLine extends BoardLineElementType
+    ? ValidateLine<FlatedLine> extends true
+      ? ValidateVerticalLinesAndFlat<Rest, [...Accumulator, FlatedLine]>
+      : []
+    : []
   : Accumulator;
 
 type ValidateLine<
@@ -86,30 +111,13 @@ type ValidateLine<
   ? true
   : false;
 
-type ValidateVerticalLines<
-  Board extends BoardLineType,
-  Accumulator extends ValidationAccumulatorType = {},
-  IndexList extends number[] = []
-> = Board extends [
-  infer Current extends BoardLineElementType,
-  ...infer Rest extends BoardLineType
-]
-  ? ValidateLine<Current> extends true
-    ? ValidateVerticalLines<
-        Rest,
-        Accumulator & { [Key in IndexList["length"]]: true },
-        [...IndexList, 0]
-      >
-    : false
-  : Accumulator extends Validated9
-  ? true
-  : false;
-
-type Validate<Board extends BoardType> = ValidateVerticalLines<
-  FlatBoard<Board>
-> extends true
-  ? true
-  : false;
+type Validate<Board extends BoardType> =
+  ValidateVerticalLinesAndFlat<Board> extends infer FlatedBoard extends BoardLineType
+    ? FlatedBoard["length"] extends 9
+      ? ValidateHorizontalLines<FlatedBoard>
+      : false
+    : false;
+false;
 
 // === TESTING ===
 type TestedBoard = [
@@ -123,3 +131,7 @@ type TestedBoard = [
   [["🔴", "❤️", "☄️"], ["🌟", "⚡", "🌩️"], ["💨", "🦌", "💃"]],
   [["⚡", "🦌", "🌩️"], ["💨", "❤️", "💃"], ["🔴", "🌟", "☄️"]]
 ];
+
+type TestType = Validate<TestedBoard>;
+
+export { Validate };
