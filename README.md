@@ -47,3 +47,9 @@
 [Day 21](./Day21/solution.ts)
 
 [Day 22](./Day22/solution.ts)
+
+[Day 23](./Day23/solution.ts)
+
+[Day 24](./Day24/solution.ts)
+
+[Day 25](./Day25/solution.ts)
