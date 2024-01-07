@@ -1,4 +1,5 @@
 import { Expect, Equal } from "type-testing";
+import { Move } from "./solution";
 
 type Maze0 = [
   ["🎄", "🎄", "🎄", "🎄", "🎄", "🎄", "🎄", "🎄", "🎄", "🎄"],

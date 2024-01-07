@@ -1,4 +1,5 @@
 import { Expect, Equal } from "type-testing";
+import { Connect4, NewGame } from "./solution";
 
 type test_move1_actual = Connect4<NewGame, 0>;
 //   ^?
